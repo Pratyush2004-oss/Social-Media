@@ -3,7 +3,7 @@ import React from "react";
 import { styles } from "@/styles/auth.styles";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
-import { useSSO } from "@clerk/clerk-expo";
+import { SignedIn, useSSO } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 
 export default function login() {
@@ -14,12 +14,11 @@ export default function login() {
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_google",
       });
-      
-      if (setActive && createdSessionId) {
-        setActive({ session: createdSessionId });
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
         router.replace("/(tabs)");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log("OAuth error:", error);
     }
   };
