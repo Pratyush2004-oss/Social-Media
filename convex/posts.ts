@@ -4,8 +4,8 @@ import { mutation } from "./_generated/server";
 export const generateUploadUrl = mutation({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthorized");
-    return ctx.storage.generateUploadUrl();
+    if (!identity) throw new Error("Unauthorized user");
+    return await ctx.storage.generateUploadUrl();
   },
 });
 
