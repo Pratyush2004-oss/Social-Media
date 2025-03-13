@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
-export const generateUploadUrl = mutation(async (ctx) => {
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity) throw new Error("Unauthorized");
-  return await ctx.storage.generateUploadUrl();
+export const generateUploadUrl = mutation({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+    return ctx.storage.generateUploadUrl();
+  },
 });
 
 export const createPost = mutation({
